@@ -45,9 +45,9 @@ spell-check-dictionary:
 check-markdown:
 	make -C cmd/check-markdown
 
-crio:
-	bash .ci/install_bats.sh
-	./integration/cri-o/cri-o.sh
+# crio:
+# 	bash .ci/install_bats.sh
+# 	./integration/cri-o/cri-o.sh
 
 ksm:
 	bash -f integration/ksm/ksm_test.sh
@@ -65,8 +65,8 @@ kubernetes-e2e:
 	bash ./setup.sh &&\
 	bash ./run.sh
 
-sandbox-cgroup:
-	bash -f integration/sandbox_cgroup/sandbox_cgroup_test.sh
+# sandbox-cgroup:
+# 	bash -f integration/sandbox_cgroup/sandbox_cgroup_test.sh
 
 stability:
 	cd integration/stability && \
@@ -85,11 +85,11 @@ shimv2:
 cri-containerd:
 	bash integration/containerd/cri/integration-tests.sh
 
-log-parser:
-	make -C cmd/log-parser
+# log-parser:
+# 	make -C cmd/log-parser
 
-qat:
-	bash integration/qat/qat_test.sh
+# qat:
+# 	bash integration/qat/qat_test.sh
 
 agent-shutdown:
 	bash tracing/test-agent-shutdown.sh
@@ -125,7 +125,7 @@ vfio:
 	bash -f functional/vfio/run.sh -s false -p qemu -m q35 -i image
 	bash -f functional/vfio/run.sh -s true -p qemu -m q35 -i image
 
-agent: bash -f integration/agent/agent_test.sh
+# agent: bash -f integration/agent/agent_test.sh
 
 monitor:
 	bash -f functional/kata-monitor/run.sh

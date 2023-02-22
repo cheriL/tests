@@ -17,8 +17,8 @@ set -o pipefail
 [ -n "${DEBUG:-}" ] && set -o xtrace
 
 dir_path=$(dirname "$0")
-source "${dir_path}/../../lib/common.bash"
-source "${dir_path}/../../metrics/lib/common.bash"
+source "../../lib/common.bash"
+source "../../metrics/lib/common.bash"
 
 CONTAINER_NAME="${CONTAINER_NAME:-test}"
 IMAGE="${IMAGE:-quay.io/library/busybox:latest}"
