@@ -13,8 +13,8 @@ CONTAINER_NAME="${CONTAINER_NAME:-test}"
 IMAGE="${IMAGE:-docker.io/library/busybox:latest}"
 
 declare -A vol_xfs vol_ext
-vol_xfs=([src]="/dev/loop0" [dst]="/mnt/fs_test" [size]="2G" [resize]="5G")
-vol_ext=([src]="/dev/loop2" [dst]="/tmp" [size]="5G" [resize]="8G")
+vol_xfs=([dst]="/mnt/fs_test" [size]="2G" [resize]="5G")
+vol_ext=([dst]="/tmp" [size]="5G" [resize]="8G")
 
 check_lo_dev() {
     #TODO
@@ -24,18 +24,20 @@ setup() {
     yum install -y qemu-img
 
     fs_type="xfs"
-    src=${vol_xfs[src]}
+    loop_dev=$(sudo losetup -f)
     qemu-img create test_vol_xfs ${vol_xfs[size]}
-    losetup $src test_vol_xfs
-    mkfs -t $fs_type -f $src
-    vol_xfs[mount_info]="{\"Device\": \"$src\", \"fstype\": \"$fs_type\", \"VolumeType\": \"block\"}"
+    losetup $loop_dev test_vol_xfs
+    mkfs -t $fs_type -f $loop_dev
+    vol_xfs[src]=$loop_dev
+    vol_xfs[mount_info]="{\"Device\": \"$loop_dev\", \"fstype\": \"$fs_type\", \"VolumeType\": \"block\"}"
 
     fs_type="ext4"
-    src=${vol_ext[src]}
+    loop_dev=$(sudo losetup -f)
     qemu-img create test_vol_ext ${vol_ext[size]}
-    losetup $src test_vol_ext
-    mkfs -t $fs_type -F $src #TODO
-    vol_ext[mount_info]="{\"Device\": \"$src\", \"fstype\": \"$fs_type\", \"VolumeType\": \"block\"}"
+    losetup $loop_dev test_vol_ext
+    mkfs -t $fs_type -F $loop_dev
+    vol_ext[src]=$loop_dev
+    vol_ext[mount_info]="{\"Device\": \"$loop_dev\", \"fstype\": \"$fs_type\", \"VolumeType\": \"block\"}"
 }
 
 teardown() {
