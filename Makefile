@@ -31,33 +31,15 @@ ifneq ($(wildcard $(ARCH_FILE)),)
 include $(ARCH_FILE)
 endif
 
-default: checkcommits github-labels
-
-checkcommits:
-	make -C cmd/checkcommits
-
-github-labels:
-	make -C cmd/github-labels
-
-spell-check-dictionary:
-	make -C cmd/check-spelling
-
-check-markdown:
-	make -C cmd/check-markdown
-
-# crio:
-# 	bash .ci/install_bats.sh
-# 	./integration/cri-o/cri-o.sh
-
-ksm:
-	bash -f integration/ksm/ksm_test.sh
+# ksm:
+# 	bash -f integration/ksm/ksm_test.sh
 
 kubernetes:
 	bash -f .ci/install_bats.sh
 	bash -f integration/kubernetes/run_kubernetes_tests.sh
 
-nydus:
-	bash -f integration/nydus/nydus_tests.sh
+# nydus:
+# 	bash -f integration/nydus/nydus_tests.sh
 
 kubernetes-e2e:
 	cd "integration/kubernetes/e2e_conformance" &&\
@@ -68,91 +50,46 @@ kubernetes-e2e:
 # sandbox-cgroup:
 # 	bash -f integration/sandbox_cgroup/sandbox_cgroup_test.sh
 
-stability:
-	cd integration/stability && \
-	ITERATIONS=2 MAX_CONTAINERS=20 ./soak_parallel_rm.sh
-	cd integration/stability && ./hypervisor_stability_kill_test.sh
-
-# Run the static checks on this repository.
-static-checks:
-	PATH="$(GOPATH)/bin:$(PATH)" .ci/static-checks.sh \
-	     "github.com/kata-containers/tests"
-
-shimv2:
-	bash integration/containerd/shimv2/shimv2-tests.sh
-	bash integration/containerd/shimv2/shimv2-factory-tests.sh
+# stability:
+# 	cd integration/stability && \
+# 	ITERATIONS=2 MAX_CONTAINERS=20 ./soak_parallel_rm.sh
+# 	cd integration/stability && ./hypervisor_stability_kill_test.sh
 
 cri-containerd:
-	bash integration/containerd/cri/integration-tests.sh
-
-# log-parser:
-# 	make -C cmd/log-parser
-
-# qat:
-# 	bash integration/qat/qat_test.sh
-
-agent-shutdown:
-	bash tracing/test-agent-shutdown.sh
-
-# Tracing requires the agent to shutdown cleanly,
-# so run the shutdown test first.
-tracing: agent-shutdown
-	bash tracing/tracing-test.sh
+	bash integration/containerd/ctr_tests.sh
 
 vcpus:
-	bash -f integration/vcpus/default_vcpus_test.sh
+	bash -f integration/containerd/vcpus_test.sh
 
-pmem:
-	bash -f integration/pmem/pmem_test.sh
+blk-volume:
+	bash -f integration/containerd/volume_test.sh
 
 test: ${UNION}
 
-check: checkcommits log-parser
+# $(INSTALL_TARGETS): install-%: .ci/install_%.sh
+# 	@bash -f $<
 
-$(INSTALL_TARGETS): install-%: .ci/install_%.sh
-	@bash -f $<
+# list-install-targets:
+# 	@echo $(INSTALL_TARGETS) | tr " " "\n"
 
-list-install-targets:
-	@echo $(INSTALL_TARGETS) | tr " " "\n"
+# rootless:
+# 	bash -f integration/rootless/rootless_test.sh
 
-rootless:
-	bash -f integration/rootless/rootless_test.sh
-
-vfio:
-#	Skip: Issue: https://github.com/kata-containers/kata-containers/issues/1488
-#	bash -f functional/vfio/run.sh -s false -p clh -i image
-#	bash -f functional/vfio/run.sh -s true -p clh -i image
-	bash -f functional/vfio/run.sh -s false -p qemu -m q35 -i image
-	bash -f functional/vfio/run.sh -s true -p qemu -m q35 -i image
+# vfio:
+# #	Skip: Issue: https://github.com/kata-containers/kata-containers/issues/1488
+# #	bash -f functional/vfio/run.sh -s false -p clh -i image
+# #	bash -f functional/vfio/run.sh -s true -p clh -i image
+# 	bash -f functional/vfio/run.sh -s false -p qemu -m q35 -i image
+# 	bash -f functional/vfio/run.sh -s true -p qemu -m q35 -i image
 
 # agent: bash -f integration/agent/agent_test.sh
 
-monitor:
-	bash -f functional/kata-monitor/run.sh
-
-help:
-	@echo Subsets of the tests can be run using the following specific make targets:
-	@echo " $(UNION)" | sed 's/ /\n\t/g'
-	@echo ''
-	@echo "Pull request targets:"
-	@echo "	static-checks	- run the static checks on this repository."
+# monitor:
+# 	bash -f functional/kata-monitor/run.sh
 
 # PHONY in alphabetical order
 .PHONY: \
-	check \
-	checkcommits \
-	crio \
-	$(INSTALL_TARGETS) \
 	kubernetes \
-	list-install-targets \
-	log-parser \
-	qat \
-	rootless \
-	sandbox-cgroup \
-	static-checks \
-	test \
-	tracing \
+	cri-containerd \
 	vcpus \
-	vfio \
-	pmem \
-	agent
+	blk-volume

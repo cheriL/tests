@@ -15,7 +15,7 @@ cidir=$(dirname "$0")
 source "${cidir}/../../metrics/lib/common.bash"
 
 # Environment variables
-IMAGE="${IMAGE:-quay.io/prometheus/busybox:latest}"
+IMAGE="${IMAGE:-docker.io/library/busybox:latest}"
 CONTAINER_NAME="${CONTAINER_NAME:-test}"
 PAYLOAD_ARGS="${PAYLOAD_ARGS:-tail -f /dev/null}"
 
