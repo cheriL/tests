@@ -13,7 +13,7 @@ spec:
   restartPolicy: Never
   containers:
   - name: busybox
-    image: quay.io/prometheus/busybox:latest
+    image: docker.io/library/busybox:latest
     command: ["grep", "Seccomp:", "/proc/self/status"]
     securityContext:
       seccompProfile:

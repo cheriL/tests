@@ -12,7 +12,7 @@ spec:
   runtimeClassName: kata
   containers:
   - name: qos-guaranteed
-    image: quay.io/prometheus/busybox:latest
+    image: docker.io/library/busybox:latest
     command: ["/bin/sh", "-c", "tail -f /dev/null"]
     resources:
       limits:

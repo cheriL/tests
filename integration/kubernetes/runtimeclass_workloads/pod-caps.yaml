@@ -12,7 +12,7 @@ spec:
   runtimeClassName: kata
   containers:
     - name: test-container
-      image: quay.io/prometheus/busybox:latest
+      image: docker.io/library/busybox:latest
       command: ["sh"]
       args: ["-c", "cat /proc/self/status | grep Cap && sleep infinity"]
   restartPolicy: Never

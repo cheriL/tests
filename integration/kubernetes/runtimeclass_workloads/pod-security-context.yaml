@@ -14,5 +14,5 @@ spec:
     runAsUser: 1000
   containers:
   - name: sec-text
-    image: quay.io/prometheus/busybox:latest
+    image: docker.io/library/busybox:latest
     command: ["tail", "-f", "/dev/null"]

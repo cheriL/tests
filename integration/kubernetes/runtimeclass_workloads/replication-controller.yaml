@@ -21,6 +21,6 @@ spec:
       runtimeClassName: kata
       containers:
       - name: nginxtest
-        image: quay.io/sjenning/${nginx_version}
+        image: docker.io/library/${nginx_version}
         ports:
         - containerPort: 80

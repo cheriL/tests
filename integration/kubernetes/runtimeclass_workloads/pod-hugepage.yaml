@@ -11,7 +11,7 @@ spec:
   runtimeClassName: kata
   containers:
   - name: hugepage-container
-    image: quay.io/prometheus/busybox:latest
+    image: docker.io/library/busybox:latest
     command: ["/bin/sh"]
     args: ["-c", "tail -f /dev/null"]
     volumeMounts:

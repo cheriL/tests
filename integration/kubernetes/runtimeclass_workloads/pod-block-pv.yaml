@@ -7,7 +7,7 @@ spec:
   runtimeClassName: kata
   containers:
     - name: my-container
-      image: quay.io/libpod/ubuntu:latest
+      image: docker.io/library/ubuntu:latest
       command: ["tail", "-f", "/dev/null"]
       volumeDevices:
         - devicePath: DEVICE_PATH

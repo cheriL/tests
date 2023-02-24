@@ -12,13 +12,13 @@ spec:
   runtimeClassName: kata
   containers:
   - name: c1
-    image: quay.io/prometheus/busybox:latest
+    image: docker.io/library/busybox:latest
     command: ["tail", "-f", "/dev/null"]
     resources:
       limits:
         cpu: "500m"
   - name: c2
-    image: quay.io/prometheus/busybox:latest
+    image: docker.io/library/busybox:latest
     command:
       - sleep
       - "10"
